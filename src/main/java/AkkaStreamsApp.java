@@ -10,10 +10,10 @@ import akka.stream.javadsl.Flow;
 
 import java.util.concurrent.CompletionStage;
 
-public class AkkaApp {
+public class AkkaStreamsApp {
 
     public static void main(String[] args) throws Exception {
-        ActorSystem system = ActorSystem.create(AkkaAppConstants.ACTOR_SYSTEM_NAME);
+        ActorSystem system = ActorSystem.create(AkkaStreamsAppConstants.ACTOR_SYSTEM_NAME);
 
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
@@ -23,10 +23,10 @@ public class AkkaApp {
                 instance.createRoute().flow(system, materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
-                ConnectHttp.toHost(AkkaAppConstants.HOST, AkkaAppConstants.PORT),
+                ConnectHttp.toHost(AkkaStreamsAppConstants.HOST, AkkaStreamsAppConstants.PORT),
                 materializer
         );
-        System.out.println(AkkaAppConstants.START_SERVER_MESSAGE);
+        System.out.println(AkkaStreamsAppConstants.START_SERVER_MESSAGE);
         System.in.read();
         binding
                 .thenCompose(ServerBinding::unbind)

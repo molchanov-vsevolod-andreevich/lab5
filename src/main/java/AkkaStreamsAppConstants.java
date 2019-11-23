@@ -1,4 +1,4 @@
-class AkkaAppConstants {
+class AkkaStreamsAppConstants {
     // Actors Constants
     static final String ACTOR_SYSTEM_NAME = "routes";
     static final String ROUTE_ACTOR_NAME = "routeActor";
