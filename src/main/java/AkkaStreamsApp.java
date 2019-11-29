@@ -39,8 +39,8 @@ public class AkkaStreamsApp {
         return Flow.of(HttpRequest.class)
                 .map(req -> {
                     Query requestQuery = req.getUri().query();
-                    String url = requestQuery.;
-                    Integer count = requestQuery;
+                    String url = requestQuery.getOrElse();
+                    Integer count = requestQuery.getOrElse();
                     return  new TestPing(url, count);
                 })
                 .mapAsync()
