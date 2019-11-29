@@ -36,12 +36,12 @@ public class AkkaStreamsApp {
         ActorRef cacheActor = system.actorOf(CacheActor.props(), AkkaStreamsAppConstants.CACHE_ACTOR_NAME);
 
         return Flow.of(HttpRequest.class)
-                .map()
+                .map(req ->)
                 .mapAsync()
-                .map(r -> {
-                    cacheActor.tell(r, ActorRef.noSender());
+                .map(res -> {
+                    cacheActor.tell(res, ActorRef.noSender());
                     return HttpResponse.create()
-                            .withEntity(r.getUrl + " " + r.getPing);
+                            .withEntity(res.getUrl + " " + res.getPing);
                 });
     }
 
