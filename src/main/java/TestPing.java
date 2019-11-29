@@ -1,6 +1,6 @@
 public class TestPing {
     private String url;
-    private Integer ping;
+    private Integer count;
 
     public ResultPing(String url, Integer ping) {
         this.url = url;
