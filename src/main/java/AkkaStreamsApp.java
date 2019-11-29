@@ -6,6 +6,7 @@ import akka.http.javadsl.Http;
 import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
+import akka.http.javadsl.model.Query;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 
@@ -37,9 +38,9 @@ public class AkkaStreamsApp {
 
         return Flow.of(HttpRequest.class)
                 .map(req -> {
-                    Query requestQuery = req.
-                    String url = ;
-                    Integer count = ;
+                    Query requestQuery = req.getUri().query();
+                    String url = requestQuery.;
+                    Integer count = requestQuery;
                     return  new TestPing(url, count);
                 })
                 .mapAsync()
