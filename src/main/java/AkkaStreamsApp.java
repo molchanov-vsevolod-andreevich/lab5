@@ -40,7 +40,7 @@ public class AkkaStreamsApp {
                 .map(req -> {
                     Query requestQuery = req.getUri().query();
                     String url = requestQuery.getOrElse(AkkaStreamsAppConstants.TEST_URL_KEY, "");
-                    Integer count = requestQuery.getOrElse(AkkaStreamsAppConstants.COUNT_KEY, );
+                    Integer count = requestQuery.getOrElse(AkkaStreamsAppConstants.COUNT_KEY, "-1");
                     return  new TestPing(url, count);
                 })
                 .mapAsync()
