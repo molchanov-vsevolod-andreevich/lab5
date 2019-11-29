@@ -45,7 +45,7 @@ public class AkkaStreamsApp {
                     return new TestPing(url, count);
                 })
                 .mapAsync(testPing -> {
-                    
+                    return Patterns.ask()
                 })
                 .map(res -> {
                     cacheActor.tell(res, ActorRef.noSender());
