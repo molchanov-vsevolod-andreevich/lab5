@@ -39,7 +39,7 @@ public class AkkaStreamsApp {
         return Flow.of(HttpRequest.class)
                 .map(req -> {
                     Query requestQuery = req.getUri().query();
-                    String url = requestQuery.getOrElse(AkkaStreamsAppConstants.TEST_URL_KEY, );
+                    String url = requestQuery.getOrElse(AkkaStreamsAppConstants.TEST_URL_KEY, "");
                     Integer count = requestQuery.getOrElse(AkkaStreamsAppConstants.COUNT_KEY, );
                     return  new TestPing(url, count);
                 })
