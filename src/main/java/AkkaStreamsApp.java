@@ -40,7 +40,7 @@ public class AkkaStreamsApp {
                 .mapAsync()
                 .map(r -> {
                     cacheActor.tell(r, ActorRef.noSender());
-                    return 
+                    return HttpResponse.create()
                 })
     }
 
