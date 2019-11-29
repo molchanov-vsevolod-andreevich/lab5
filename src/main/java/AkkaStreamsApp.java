@@ -36,8 +36,8 @@ public class AkkaStreamsApp {
         ActorRef cacheActor = system.actorOf(CacheActor.props());
 
         return Flow.of(HttpRequest.class)
-                .map
-                .mapAsync
+                .map()
+                .mapAsync()
     }
 
 }
