@@ -37,6 +37,7 @@ public class AkkaStreamsApp {
 
         return Flow.of(HttpRequest.class)
                 .map(req -> {
+                    
                     String url = ;
                     Integer count = ;
                     return  new TestPing(url, count);
