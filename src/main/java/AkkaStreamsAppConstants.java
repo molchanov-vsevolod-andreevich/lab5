@@ -18,4 +18,7 @@ class AkkaStreamsAppConstants {
     static final String START_SERVER_MESSAGE = "Server online at http://localhost:8080/\nPress RETURN to stop...\n";
     static final String START_TEST_MESSAGE = "Test started!\n";
     static final String NO_SUCH_PACKAGE_MESSAGE = "There is no such package";
+
+    // HTTP Request and Response constants
+    static final String 
 }
