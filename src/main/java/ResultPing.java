@@ -1,4 +1,4 @@
 public class ResultPing {
-    String url;
-    
+    private String url;
+
 }
