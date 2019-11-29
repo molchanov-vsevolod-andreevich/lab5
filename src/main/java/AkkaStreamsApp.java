@@ -1,4 +1,5 @@
 import akka.NotUsed;
+import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.ConnectHttp;
 import akka.http.javadsl.Http;
@@ -32,7 +33,8 @@ public class AkkaStreamsApp {
     }
 
     private static Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(Http http, ActorSystem system, ActorMaterializer materializer) {
-        ActorRef cacheActor = system.actorOf()
+        ActorRef cacheActor = system.actorOf(CacheActor.props());
+        
     }
 
 }
