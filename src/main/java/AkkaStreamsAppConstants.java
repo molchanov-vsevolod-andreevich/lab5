@@ -21,5 +21,5 @@ class AkkaStreamsAppConstants {
 
     // HTTP Request and Response constants
     static final String TEST_URL_KEY = "testUrl";
-    static final String TEST_URL_KEY = "testUrl";
+    static final String COUNT_KEY = "count";
 }
