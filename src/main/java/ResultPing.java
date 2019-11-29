@@ -6,4 +6,6 @@ public class ResultPing {
         this.url = url;
         this.ping = ping;
     }
+
+    public 
 }
