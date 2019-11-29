@@ -20,7 +20,7 @@ public class CacheActor extends AbstractActor {
 
                 })
                 .match(GetPing.class, msg -> {
-                    sender().tell();
+                    sender().tell(, self());
                 })
                 .build();
     }
