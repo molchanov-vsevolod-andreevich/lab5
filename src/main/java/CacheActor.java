@@ -2,7 +2,12 @@ import akka.actor.AbstractActor;
 import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class CacheActor extends AbstractActor {
+    private Map<String, ArrayList<TestPackageResponse.TestResult>> store = new HashMap<>();
 
     static Props props() {
 
