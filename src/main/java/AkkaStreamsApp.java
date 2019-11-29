@@ -14,14 +14,14 @@ import java.util.concurrent.CompletionStage;
 public class AkkaStreamsApp {
 
     public static void main(String[] args) throws IOException {
-        System.out.println("start!");
-        ActorSystem system = ActorSystem.create("routes");
+        System.out.println(AkkaStreamsAppConstants.START_MESSAGE);
+        ActorSystem system = ActorSystem.create(AkkaStreamsAppConstants.ACTOR_SYSTEM_NAME);
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = <вызов метода которому передаем Http, ActorSystem и ActorMaterializer>;
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
-                ConnectHttp.toHost("localhost", 8080),
+                ConnectHttp.toHost(AkkaStreamsAppConstants.HOST, AkkaStreamsAppConstants.PORT),
                 materializer
         );
         System.out.println(AkkaStreamsAppConstants.START_SERVER_MESSAGE);
