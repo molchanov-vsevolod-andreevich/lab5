@@ -24,7 +24,7 @@ public class AkkaStreamsApp {
                 ConnectHttp.toHost("localhost", 8080),
                 materializer
         );
-        System.out.println("Server online at http://localhost:8080/\nPress RETURN to stop...");
+        System.out.println(AkkaStreamsAppConstants.START_SERVER_MESSAGE);
         System.in.read();
         binding
                 .thenCompose(ServerBinding::unbind)
