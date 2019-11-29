@@ -16,10 +16,12 @@ public class CacheActor extends AbstractActor {
     public Receive createReceive() {
         return ReceiveBuilder.create()
                 .match(TestPing.class, req -> {
-                    store.put();
+                    String url = req.getUrl();
+                    result = ;
+                    store.put(url, result);
                 })
                 .match(GetMessage.class, msg -> {
-                    String url = msg.getURL();
+                    String url = msg.getUrl();
                     Integer result = store.get(url);
                     sender().tell(new ResultPing(url, result), self());
                 })
@@ -33,7 +35,7 @@ public class CacheActor extends AbstractActor {
             this.url = url;
         }
 
-        String getURL() {
+        String getUrl() {
             return url;
         }
     }
