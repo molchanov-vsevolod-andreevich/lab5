@@ -1,3 +1,3 @@
-public class GetPing {
-    
+public class ResultPing {
+
 }

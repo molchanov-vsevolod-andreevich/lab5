@@ -9,7 +9,6 @@ public class CacheActor extends AbstractActor {
     private Map<String, Integer> store = new HashMap<>();
 
     static Props props() {
-
         return Props.create(CacheActor.class);
     }
 
@@ -19,12 +18,24 @@ public class CacheActor extends AbstractActor {
                 .match(TestPing.class, req -> {
 
                 })
-                .match(GetPing.class, msg -> {
+                .match(GetMessage.class, msg -> {
                     String url = msg.getURL();
                     Integer result = store.get(url);
                     sender().tell(new ResultPing(url, result), self());
                 })
                 .build();
     }
+
+    static class GetMessage {
+        private final String url;
+
+        GetMessage(String url) {
+            this.url = url;
+        }
+
+        String getURL() {
+            return url;
+        }
     }
+
 }
