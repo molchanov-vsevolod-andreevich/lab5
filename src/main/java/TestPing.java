@@ -2,16 +2,16 @@ public class TestPing {
     private String url;
     private Integer count;
 
-    public ResultPing(String url, Integer ping) {
+    public TestPing(String url, Integer count) {
         this.url = url;
-        this.ping = ping;
+        this.count = count;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public Integer getPing() {
-        return ping;
+    public Integer getCount() {
+        return count;
     }
 }
