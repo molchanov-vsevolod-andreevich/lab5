@@ -42,9 +42,11 @@ public class AkkaStreamsApp {
                     String url = requestQuery.getOrElse(AkkaStreamsAppConstants.TEST_URL_KEY, "");
                     Integer count = Integer.parseInt(requestQuery.getOrElse(AkkaStreamsAppConstants.COUNT_KEY, "-1"));
 
-                    return  new TestPing(url, count);
+                    return new TestPing(url, count);
                 })
-                .mapAsync()
+                .mapAsync(testPing -> {
+                    
+                })
                 .map(res -> {
                     cacheActor.tell(res, ActorRef.noSender());
                     return HttpResponse.create()
