@@ -20,5 +20,5 @@ class AkkaStreamsAppConstants {
     static final String NO_SUCH_PACKAGE_MESSAGE = "There is no such package";
 
     // HTTP Request and Response constants
-    static final String 
+    static final String URL_KEY
 }
