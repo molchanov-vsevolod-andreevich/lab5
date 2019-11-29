@@ -35,7 +35,9 @@ public class AkkaStreamsApp {
     private static Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(Http http, ActorSystem system, ActorMaterializer materializer) {
         ActorRef cacheActor = system.actorOf(CacheActor.props());
 
-        return Flow.of(HttpRequest.class).map
+        return Flow.of(HttpRequest.class)
+                .map
+                .mapAss
     }
 
 }
