@@ -1,2 +1,2 @@
-public class TestPing {
+public class HttpRequest {
 }

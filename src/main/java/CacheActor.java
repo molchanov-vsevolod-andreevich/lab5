@@ -16,10 +16,10 @@ public class CacheActor extends AbstractActor {
     @Override
     public Receive createReceive() {
         return ReceiveBuilder.create()
-                .match(GetPing.class, req -> {
+                .match(HttpResponse.class, req -> {
                     storeActor.tell(req, sender());
                 })
-                .match(TestPing.class, msg -> {
+                .match(HttpRequest.class, msg -> {
                     for (TestPackageRequest.Test test : msg.getTests()) {
                         runTestActor.tell(new TestToEval(msg.getPackageId(),
                                         msg.getJsScript(),
