@@ -42,7 +42,7 @@ public class AkkaStreamsApp {
                     cacheActor.tell(r, ActorRef.noSender());
                     return HttpResponse.create()
                             .withEntity(r.getUrl + " " + r.getPing);
-                })
+                });
     }
 
 }
