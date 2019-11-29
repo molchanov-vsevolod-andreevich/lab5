@@ -2,11 +2,11 @@ import akka.actor.AbstractActor;
 import akka.actor.Props;
 import akka.japi.pf.ReceiveBuilder;
 
-public class CashActor extends AbstractActor {
+public class CacheActor extends AbstractActor {
 
     static Props props() {
 
-        return Props.create(CashActor.class);
+        return Props.create(CacheActor.class);
     }
 
     @Override
