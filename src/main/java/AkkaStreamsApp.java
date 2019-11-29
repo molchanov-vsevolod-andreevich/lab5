@@ -38,7 +38,9 @@ public class AkkaStreamsApp {
         return Flow.of(HttpRequest.class)
                 .map()
                 .mapAsync()
-                .map()
+                .map(-> {
+                        
+                })
     }
 
 }
