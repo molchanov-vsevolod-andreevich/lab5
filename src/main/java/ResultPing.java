@@ -7,5 +7,11 @@ public class ResultPing {
         this.ping = ping;
     }
 
-    public 
+    public String getUrl() {
+        return url;
+    }
+
+    public Integer getPing() {
+        return ping;
+    }
 }
