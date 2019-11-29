@@ -16,7 +16,7 @@ public class CacheActor extends AbstractActor {
     public Receive createReceive() {
         return ReceiveBuilder.create()
                 .match(TestPing.class, req -> {
-
+                    store.put();
                 })
                 .match(GetMessage.class, msg -> {
                     String url = msg.getURL();
