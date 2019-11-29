@@ -16,11 +16,11 @@ public class CacheActor extends AbstractActor {
     @Override
     public Receive createReceive() {
         return ReceiveBuilder.create()
-                .match(HttpResponse.class, req -> {
+                .match(TestPing.class, req -> {
 
                 })
-                .match(HttpRequest.class, msg -> {
-
+                .match(GetPing.class, msg -> {
+                    
                 })
                 .build();
     }
