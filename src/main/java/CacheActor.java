@@ -20,8 +20,9 @@ public class CacheActor extends AbstractActor {
 
                 })
                 .match(GetPing.class, msg -> {
-                    Integer result = store.get(msg.getURL());
-                    sender().tell(new ResultPing(result), self());
+                    String url = msg.getURL();
+                    Integer result = store.get(url);
+                    sender().tell(new ResultPing(url, result), self());
                 })
                 .build();
     }
