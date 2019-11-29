@@ -38,8 +38,8 @@ public class AkkaStreamsApp {
         return Flow.of(HttpRequest.class)
                 .map()
                 .mapAsync()
-                .map(result -> {
-                    cacheActor.tell();
+                .map(r -> {
+                    cacheActor.tell(r, );
                 })
     }
 
