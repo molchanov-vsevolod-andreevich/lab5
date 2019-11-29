@@ -39,7 +39,7 @@ public class AkkaStreamsApp {
                 .map()
                 .mapAsync()
                 .map(-> {
-                    cacheActor
+                    cacheActor.tell();
                 })
     }
 
