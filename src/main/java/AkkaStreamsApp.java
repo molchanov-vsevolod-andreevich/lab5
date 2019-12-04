@@ -43,9 +43,9 @@ public class AkkaStreamsApp {
                     String url = requestQuery.getOrElse(AkkaStreamsAppConstants.TEST_URL_KEY, "");
                     Integer count = Integer.parseInt(requestQuery.getOrElse(AkkaStreamsAppConstants.COUNT_KEY, "-1"));
 
-                    return new TestPing(url, count);
+                    return new CacheActor.GetMessage(url);
                 })
-                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, testPing -> Patterns.ask(cacheActor, testPing, AkkaStreamsAppConstants.TIMEOUT)
+                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, msg -> Patterns.ask(cacheActor, msg, AkkaStreamsAppConstants.TIMEOUT)
                         .thenCompose(res -> )
                 )
                 .map(res -> {
