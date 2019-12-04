@@ -24,5 +24,5 @@ class AkkaStreamsAppConstants {
     static final String COUNT_KEY = "count";
 
     // Other constants
-    
+    static final int TIMEOUT = 5000;
 }

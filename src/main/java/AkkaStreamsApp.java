@@ -45,7 +45,7 @@ public class AkkaStreamsApp {
 
                     return new TestPing(url, count);
                 })
-                .mapAsync(testPing -> Patterns.ask(cacheActor, testPing, 5000)
+                .mapAsync(testPing -> Patterns.ask(cacheActor, testPing, AkkaStreamsAppConstants.TIMEOUT)
                         .thenCompose()
                 )
                 .map(res -> {
