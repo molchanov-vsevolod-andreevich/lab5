@@ -47,7 +47,9 @@ public class AkkaStreamsApp {
                 })
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, msg -> Patterns.ask(cacheActor, msg, AkkaStreamsAppConstants.TIMEOUT)
                         .thenCompose(res -> {
-                            res
+                            ResultPing cachedResult = (ResultPing) res;
+
+
                         })
                 )
                 .map(res -> {
