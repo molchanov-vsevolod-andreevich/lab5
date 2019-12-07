@@ -49,8 +49,7 @@ public class AkkaStreamsApp {
                 })
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, msg -> Patterns.ask(cacheActor, msg, AkkaStreamsAppConstants.TIMEOUT)
                         .thenApply(cachedPing -> (ResultPing) cachedPing)
-                        .thenCompose(cachedPing -> (cachedPing.getPing() == null) ?  : CompletableFuture.completedFuture(cachedPing))
-                )
+                        .thenCompose(cachedPing -> (cachedPing.getPing() == null) ? testUrl() : CompletableFuture.completedFuture(cachedPing)))
                 .map(res -> {
                     cacheActor.tell(res, ActorRef.noSender());
                     return HttpResponse.create()
