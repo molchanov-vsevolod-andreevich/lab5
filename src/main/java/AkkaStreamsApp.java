@@ -74,6 +74,7 @@ public class AkkaStreamsApp {
                                 .thenCompose(req -> {
                                     ResultPing res = (ResultPing) req;
                                     if (res.getPing() != null) {
+                                        System.out.println("Hey");
                                         return CompletableFuture.completedFuture(res);
                                     } else {
                                         return Source.from(Collections.singletonList(testPing))
@@ -83,7 +84,6 @@ public class AkkaStreamsApp {
                                     }
                         }))
                 .map(res -> {
-                    System.out.println("Result " + res.getPing());
                     cacheActor.tell(res, ActorRef.noSender());
                     return HttpResponse.create()
                             .withEntity(res.getUrl() + " " + res.getPing());
