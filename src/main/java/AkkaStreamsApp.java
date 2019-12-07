@@ -79,13 +79,13 @@ public class AkkaStreamsApp {
                                         return Source.from(Collections.singletonList(testPing))
                                                 .toMat(testSink, Keep.right())
                                                 .run(materializer)
-                                                .thenApply(time -> new ResultPing(testPing.getUrl(), time / testPing.getCount() / ))
+                                                .thenApply(time -> new ResultPing(testPing.getUrl(), time / testPing.getCount() / AkkaStreamsAppConstants.ONE_SECOND_IN_NANO_SECONDS));
                                     }
                         }))
                 .map(res -> {
                     cacheActor.tell(res, ActorRef.noSender());
                     return HttpResponse.create()
-                            .withEntity(res.getUrl + " " + res.getPing);
+                            .withEntity(res.getUrl() + " " + res.getPing());
                 });
     }
 
