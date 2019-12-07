@@ -70,12 +70,12 @@ public class AkkaStreamsApp {
                     return new CacheActor.GetMessage(url);
                 })
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, msg -> Patterns.ask(cacheActor, msg, AkkaStreamsAppConstants.TIMEOUT)
-                        .thenApply(res -> (ResultPing) res)
+                        .thenApply(req -> (ResultPing) req)
                         .thenCompose(res -> {
                             if (res.getPing() != null) {
                                 return CompletableFuture.completedFuture(res);
                             } else {
-                                return Source.from(Collections.singletonList(msg))
+                                return Source.from(Collections.singletonList(req))
                                         .toMat(testSink, Keep.right())
                                         .run(materializer)
                                         .
