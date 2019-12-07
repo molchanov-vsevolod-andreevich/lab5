@@ -74,7 +74,6 @@ public class AkkaStreamsApp {
                                 .thenCompose(req -> {
                                     ResultPing res = (ResultPing) req;
                                     if (res.getPing() != null) {
-                                        System.out.println("Hey");
                                         return CompletableFuture.completedFuture(res);
                                     } else {
                                         return Source.from(Collections.singletonList(testPing))
