@@ -56,7 +56,10 @@ public class AkkaStreamsApp {
                             .prepareGet(url)
                             .execute()
                             .toCompletableFuture()
-                            .thenApply(response -> { /*  Do something with the Response */ return resp; });
+                            .thenApply(response -> {
+                                long resp =  
+                                return resp;
+                            });
                 })
                 .toMat(fold, Keep.right());
 
