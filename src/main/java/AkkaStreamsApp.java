@@ -53,7 +53,7 @@ public class AkkaStreamsApp {
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, url -> {
                     long startTime = System.nanoTime();
                     return asyncHttpClient
-                            .prepareGet("http://www.example.com/")
+                            .prepareGet(url)
                             .execute()
                             .toCompletableFuture()
                             .exceptionally(t -> { /* Something wrong happened... */  } )
