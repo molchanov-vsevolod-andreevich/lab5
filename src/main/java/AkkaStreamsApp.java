@@ -56,7 +56,6 @@ public class AkkaStreamsApp {
                             .prepareGet(url)
                             .execute()
                             .toCompletableFuture()
-                            .exceptionally(t -> { /* Something wrong happened... */  } )
                             .thenApply(response -> { /*  Do something with the Response */ return resp; });
                 })
                 .toMat(fold, Keep.right());
