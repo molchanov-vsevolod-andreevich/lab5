@@ -12,6 +12,7 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import scala.concurrent.Future;
@@ -53,7 +54,7 @@ public class AkkaStreamsApp {
                             if (res.getPing() != null) {
                                 return CompletableFuture.completedFuture(res);
                             } else {
-                                return Source.from()
+                                return Source.from(Collection)
                             }
                         }))
                 .map(res -> {
