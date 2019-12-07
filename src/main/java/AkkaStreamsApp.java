@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Source;
 import scala.concurrent.Future;
 
