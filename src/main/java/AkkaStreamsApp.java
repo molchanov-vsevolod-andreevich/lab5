@@ -12,6 +12,7 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import scala.concurrent.Future;
 
@@ -47,8 +48,8 @@ public class AkkaStreamsApp {
                     return new CacheActor.GetMessage(url);
                 })
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, msg -> Patterns.ask(cacheActor, msg, AkkaStreamsAppConstants.TIMEOUT)
-                        .thenApply(r -> (ResultPing) r)
-                        .thenCompose(res -> (res.getPing() == null) ? : )
+                        .thenApply(cachedPing -> (ResultPing) cachedPing)
+                        .thenCompose(cachedPing -> (cachedPing.getPing() == null) ?  : CompletableFuture.completedFuture(cachedPing))
                 )
                 .map(res -> {
                     cacheActor.tell(res, ActorRef.noSender());
