@@ -22,7 +22,7 @@ import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import javafx.util.Pair;
 import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.Dsl.;
+import org.asynchttpclient.Dsl;
 import scala.concurrent.Future;
 
 public class AkkaStreamsApp {
