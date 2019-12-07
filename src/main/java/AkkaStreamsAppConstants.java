@@ -26,6 +26,6 @@ class AkkaStreamsAppConstants {
     static final String COUNT_KEY = "count";
 
     // Other constants
-    static final int TIMEOUT = Duration.ofMillis(3000);
+    static final int TIMEOUT_MILLS = Duration.ofMillis(3000);
     static final int PARALLELISM = 1;
 }
