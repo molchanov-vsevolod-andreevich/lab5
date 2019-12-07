@@ -53,7 +53,7 @@ public class AkkaStreamsApp {
                             if (res.getPing() != null) {
                                 return CompletableFuture.completedFuture(res);
                             } else {
-                                return Source
+                                return Source.from()
                             }
                         }))
                 .map(res -> {
