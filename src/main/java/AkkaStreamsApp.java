@@ -58,7 +58,7 @@ public class AkkaStreamsApp {
                                 return CompletableFuture.completedFuture(res);
                             } else {
                                 return Source.from(Collections.singletonList(res))
-                                        .toMat().run(materializer);
+                                        .toMat(testSink, Keep.right()).run(materializer);
                             }
                         }))
                 .map(res -> {
