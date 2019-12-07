@@ -46,7 +46,7 @@ public class AkkaStreamsApp {
         testSink = Flow.<Pair<String, Integer>>create()
                 .mapConcat()
                 .mapAsync()
-                .
+                .toMat()
 
         return Flow.of(HttpRequest.class)
                 .map(req -> {
