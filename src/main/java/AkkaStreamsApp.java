@@ -67,19 +67,18 @@ public class AkkaStreamsApp {
                     String url = requestQuery.getOrElse(AkkaStreamsAppConstants.TEST_URL_KEY, "");
                     Integer count = Integer.parseInt(requestQuery.getOrElse(AkkaStreamsAppConstants.COUNT_KEY, "-1"));
 
-                    return new CacheActor.GetMessage(url);
+                    return new TestPing(url, count);
                 })
-                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, msg -> Patterns.ask(cacheActor, msg, AkkaStreamsAppConstants.TIMEOUT)
-                        .thenCompose(req -> {
-                            ResultPing res = (ResultPing) req;
-
-                            if (res.getPing() != null) {
-                                return CompletableFuture.completedFuture(res);
-                            } else {
-                                return Source.from(Collections.singletonList(req))
-                                        .toMat(testSink, Keep.right())
-                                        .run(materializer)
-                                        .
+                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, testPing ->
+                        Patterns.ask(cacheActor, new CacheActor.GetMessage(testPing.getUrl()), AkkaStreamsAppConstants.TIMEOUT)
+                                .thenCompose(req -> {
+                                    ResultPing res = (ResultPing) req;
+                                    if (res.getPing() != null) {
+                                        return CompletableFuture.completedFuture(res);
+                                    } else {
+                                        return Source.from(Collections.singletonList(testPing))
+                                                .toMat(testSink, Keep.right())
+                                                .run(materializer);
                             }
                         }))
                 .map(res -> {
