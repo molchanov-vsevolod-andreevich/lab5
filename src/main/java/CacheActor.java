@@ -18,7 +18,7 @@ public class CacheActor extends AbstractActor {
                 .match(ResultPing.class, req -> {
                     String url = req.getUrl();
                     Long result = req.getPing();
-                    System.out.println("Result " + result);
+//                    System.out.println("Result " + result);
                     store.put(url, result);
                 })
                 .match(CacheActor.GetMessage.class, msg -> {
