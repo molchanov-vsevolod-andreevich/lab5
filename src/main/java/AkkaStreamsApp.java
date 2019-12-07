@@ -13,6 +13,7 @@ import akka.stream.javadsl.Flow;
 
 import java.io.IOException;
 import java.util.concurrent.CompletionStage;
+import scala.concurrent.Future;
 
 public class AkkaStreamsApp {
 
@@ -46,7 +47,8 @@ public class AkkaStreamsApp {
                     return new CacheActor.GetMessage(url);
                 })
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, msg -> {
-                    cachedResult Patterns.ask(cacheActor, msg, AkkaStreamsAppConstants.TIMEOUT);
+                    Future<Object> cachedResult = Patterns.ask(cacheActor, msg, AkkaStreamsAppConstants.TIMEOUT);
+                    
                 })
                 .map(res -> {
                     cacheActor.tell(res, ActorRef.noSender());
