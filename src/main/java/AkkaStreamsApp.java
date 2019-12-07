@@ -78,8 +78,9 @@ public class AkkaStreamsApp {
                                     } else {
                                         return Source.from(Collections.singletonList(testPing))
                                                 .toMat(testSink, Keep.right())
-                                                .run(materializer);
-                            }
+                                                .run(materializer)
+                                                .thenApply()
+                                    }
                         }))
                 .map(res -> {
                     cacheActor.tell(res, ActorRef.noSender());
