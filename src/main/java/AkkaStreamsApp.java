@@ -57,7 +57,7 @@ public class AkkaStreamsApp {
                             .execute()
                             .toCompletableFuture()
                             .thenApply(response -> {
-                                long resp =  
+                                long resp = System.nanoTime() - startTime;
                                 return resp;
                             });
                 })
