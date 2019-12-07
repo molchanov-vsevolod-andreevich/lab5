@@ -83,6 +83,7 @@ public class AkkaStreamsApp {
                                     }
                         }))
                 .map(res -> {
+                    System.out.println("Result " + res.getPing());
                     cacheActor.tell(res, ActorRef.noSender());
                     return HttpResponse.create()
                             .withEntity(res.getUrl() + " " + res.getPing());
