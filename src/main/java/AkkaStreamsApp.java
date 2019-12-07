@@ -73,7 +73,7 @@ public class AkkaStreamsApp {
                         Patterns.ask(cacheActor, new CacheActor.GetMessage(testPing.getUrl()), AkkaStreamsAppConstants.TIMEOUT)
                                 .thenCompose(req -> {
                                     ResultPing res = (ResultPing) req;
-                                    System.out.println(res.getUrl() + " " + res.getPing());
+//                                    System.out.println(res.getUrl() + " " + res.getPing());
                                     if (res.getPing() != null) {
                                         return CompletableFuture.completedFuture(res);
                                     } else {
