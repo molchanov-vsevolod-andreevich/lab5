@@ -66,13 +66,14 @@ public class AkkaStreamsApp {
                     Query requestQuery = req.getUri().query();
                     String url = requestQuery.getOrElse(AkkaStreamsAppConstants.TEST_URL_KEY, "");
                     Integer count = Integer.parseInt(requestQuery.getOrElse(AkkaStreamsAppConstants.COUNT_KEY, "-1"));
-                    System.out.println(url + " " + count);
+//                    System.out.println(url + " " + count);
                     return new TestPing(url, count);
                 })
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, testPing ->
                         Patterns.ask(cacheActor, new CacheActor.GetMessage(testPing.getUrl()), AkkaStreamsAppConstants.TIMEOUT)
                                 .thenCompose(req -> {
                                     ResultPing res = (ResultPing) req;
+                                    System.out.println(res.getUrl() + " " + res.getPing());
                                     if (res.getPing() != null) {
                                         return CompletableFuture.completedFuture(res);
                                     } else {
