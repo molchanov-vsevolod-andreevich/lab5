@@ -19,6 +19,7 @@ import java.util.concurrent.CompletionStage;
 
 import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Source;
+import javafx.util.Pair;
 import scala.concurrent.Future;
 
 public class AkkaStreamsApp {
