@@ -21,6 +21,8 @@ import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import javafx.util.Pair;
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.Dsl;
 import scala.concurrent.Future;
 
 public class AkkaStreamsApp {
@@ -45,11 +47,12 @@ public class AkkaStreamsApp {
 
     private static Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(Http http, ActorSystem system, ActorMaterializer materializer) {
         ActorRef cacheActor = system.actorOf(CacheActor.props(), AkkaStreamsAppConstants.CACHE_ACTOR_NAME);
+        AsyncHttpClient httpClient = Dsl.asyncHttpClient();
         testSink = Flow.<TestPing>create()
                 .mapConcat(testPing -> Collections.nCopies(testPing.getCount(), testPing.getUrl()))
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, url -> {
                     long startTime = System.nanoTime();
-                    return httpCl
+                    return httpClient.
                 })
                 .toMat(fold, Keep.right());
 
