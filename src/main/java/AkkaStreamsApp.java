@@ -47,7 +47,10 @@ public class AkkaStreamsApp {
         ActorRef cacheActor = system.actorOf(CacheActor.props(), AkkaStreamsAppConstants.CACHE_ACTOR_NAME);
         testSink = Flow.<TestPing>create()
                 .mapConcat(testPing -> Collections.nCopies(testPing.getCount(), testPing.getUrl()))
-                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, )
+                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, url -> {
+                    long startTime = System.nanoTime();
+                    return httpCl
+                })
                 .toMat(fold, Keep.right());
 
         return Flow.of(HttpRequest.class)
