@@ -13,8 +13,11 @@ import akka.stream.javadsl.Flow;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+
+import akka.stream.javadsl.Source;
 import scala.concurrent.Future;
 
 public class AkkaStreamsApp {
@@ -54,7 +57,7 @@ public class AkkaStreamsApp {
                             if (res.getPing() != null) {
                                 return CompletableFuture.completedFuture(res);
                             } else {
-                                return Source.from(Collections.)
+                                return Source.from(Collections.singletonList(res))
                             }
                         }))
                 .map(res -> {
