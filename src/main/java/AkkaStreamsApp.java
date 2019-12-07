@@ -49,7 +49,7 @@ public class AkkaStreamsApp {
         ActorRef cacheActor = system.actorOf(CacheActor.props(), AkkaStreamsAppConstants.CACHE_ACTOR_NAME);
         AsyncHttpClient asyncHttpClient = Dsl.asyncHttpClient();
         Sink<Long, CompletionStage<Long>> fold = Sink.fold(0L, Long::sum);
-        testSink = Flow.<TestPing>create()
+        Sink<TestPing, CompletionStage<Long>> testSink = Flow.<TestPing>create()
                 .mapConcat(testPing -> Collections.nCopies(testPing.getCount(), testPing.getUrl()))
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, url -> {
                     long startTime = System.nanoTime();
@@ -57,10 +57,7 @@ public class AkkaStreamsApp {
                             .prepareGet(url)
                             .execute()
                             .toCompletableFuture()
-                            .thenApply(response -> {
-                                long resp = System.nanoTime() - startTime;
-                                return resp;
-                            });
+                            .thenApply(response -> System.nanoTime() - startTime);
                 })
                 .toMat(fold, Keep.right());
 
@@ -78,8 +75,10 @@ public class AkkaStreamsApp {
                             if (res.getPing() != null) {
                                 return CompletableFuture.completedFuture(res);
                             } else {
-                                return Source.from(Collections.singletonList(res))
-                                        .toMat(testSink, Keep.right()).run(materializer);
+                                return Source.from(Collections.singletonList(msg))
+                                        .toMat(testSink, Keep.right())
+                                        .run(materializer)
+                                        .
                             }
                         }))
                 .map(res -> {

@@ -1,8 +1,8 @@
 public class ResultPing {
     private String url;
-    private Integer ping;
+    private Long ping;
 
-    public ResultPing(String url, Integer ping) {
+    public ResultPing(String url, Long ping) {
         this.url = url;
         this.ping = ping;
     }
@@ -11,7 +11,7 @@ public class ResultPing {
         return url;
     }
 
-    public Integer getPing() {
+    public Long getPing() {
         return ping;
     }
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CacheActor extends AbstractActor {
-    private Map<String, Integer> store = new HashMap<>();
+    private Map<String, Long> store = new HashMap<>();
 
     static Props props() {
         return Props.create(CacheActor.class);
@@ -17,12 +17,12 @@ public class CacheActor extends AbstractActor {
         return ReceiveBuilder.create()
                 .match(ResultPing.class, req -> {
                     String url = req.getUrl();
-                    Integer result = req.getPing();
+                    Long result = req.getPing();
                     store.put(url, result);
                 })
                 .match(CacheActor.GetMessage.class, msg -> {
                     String url = msg.getUrl();
-                    Integer result = store.get(url);
+                    Long result = store.get(url);
                     sender().tell(new ResultPing(url, result), self());
                 })
                 .build();
