@@ -1,3 +1,5 @@
+import java.time.Duration;
+
 class AkkaStreamsAppConstants {
     // Actors Constants
     static final String ACTOR_SYSTEM_NAME = "routes";
@@ -24,6 +26,6 @@ class AkkaStreamsAppConstants {
     static final String COUNT_KEY = "count";
 
     // Other constants
-    static final int TIMEOUT = 5000;
+    static final int TIMEOUT = Duration.ofMillis(3000);
     static final int PARALLELISM = 1;
 }
