@@ -52,7 +52,7 @@ public class AkkaStreamsApp {
                 .mapConcat(testPing -> Collections.nCopies(testPing.getCount(), testPing.getUrl()))
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, url -> {
                     long startTime = System.nanoTime();
-                    return httpClient.
+                    return asyncHttpClient.
                 })
                 .toMat(fold, Keep.right());
 
