@@ -18,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import akka.stream.javadsl.Keep;
+import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import javafx.util.Pair;
 import scala.concurrent.Future;
@@ -44,8 +45,8 @@ public class AkkaStreamsApp {
 
     private static Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(Http http, ActorSystem system, ActorMaterializer materializer) {
         ActorRef cacheActor = system.actorOf(CacheActor.props(), AkkaStreamsAppConstants.CACHE_ACTOR_NAME);
-        testSink = Flow.<Pair<String, Integer>>create()
-                .mapConcat()
+        testSink = Flow.<TestPing>create()
+                .mapConcat(testPing -> Collections.nCopies(testPing.getCount(), testPing.getUrl()))
                 .mapAsync()
                 .toMat(fold, Keep.right());
 
