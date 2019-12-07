@@ -28,5 +28,5 @@ class AkkaStreamsAppConstants {
     // Other constants
     static final Duration TIMEOUT = Duration.ofMillis(5000);
     static final int PARALLELISM = 1;
-    static final 
+    static final long 
 }
