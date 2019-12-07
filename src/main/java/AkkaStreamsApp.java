@@ -80,7 +80,7 @@ public class AkkaStreamsApp {
                                         return Source.from(Collections.singletonList(testPing))
                                                 .toMat(testSink, Keep.right())
                                                 .run(materializer)
-                                                .thenApply(time -> new ResultPing(testPing.getUrl(), time / testPing.getCount() / AkkaStreamsAppConstants.ONE_SECOND_IN_NANO_SECONDS));
+                                                .thenApply(time -> new ResultPing(testPing.getUrl(), time / testPing.getCount()));
                                     }
                         }))
                 .map(res -> {
