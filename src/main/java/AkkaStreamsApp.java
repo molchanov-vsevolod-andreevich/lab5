@@ -79,7 +79,7 @@ public class AkkaStreamsApp {
                                         return Source.from(Collections.singletonList(testPing))
                                                 .toMat(testSink, Keep.right())
                                                 .run(materializer)
-                                                .thenApply()
+                                                .thenApply(time -> new ResultPing(testPing.getUrl(), time / testPing.getCount() / ))
                                     }
                         }))
                 .map(res -> {
