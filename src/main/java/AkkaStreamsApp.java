@@ -48,7 +48,6 @@ public class AkkaStreamsApp {
                 })
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, msg -> {
                     Future<Object> cachedResult = Patterns.ask(cacheActor, msg, AkkaStreamsAppConstants.TIMEOUT);
-                    
                 })
                 .map(res -> {
                     cacheActor.tell(res, ActorRef.noSender());
