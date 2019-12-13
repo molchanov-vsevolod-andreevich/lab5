@@ -34,7 +34,7 @@ public class AkkaStreamsApp {
 
         HttpRouter instance = new HttpRouter(system);
 
-        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = createRouteFlow(system, materializer);
+        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRouteFlow(materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
                 ConnectHttp.toHost(AkkaStreamsAppConstants.HOST, AkkaStreamsAppConstants.PORT),
@@ -45,49 +45,6 @@ public class AkkaStreamsApp {
         binding
                 .thenCompose(ServerBinding::unbind)
                 .thenAccept(unbound -> system.terminate()); // and shutdown when done
-    }
-
-    private static Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(ActorSystem system, ActorMaterializer materializer) {
-        ActorRef cacheActor = system.actorOf(CacheActor.props(), AkkaStreamsAppConstants.CACHE_ACTOR_NAME);
-        AsyncHttpClient asyncHttpClient = Dsl.asyncHttpClient();
-        Sink<Long, CompletionStage<Long>> fold = Sink.fold(0L, Long::sum);
-        Sink<TestPing, CompletionStage<Long>> testSink = Flow.<TestPing>create()
-                .mapConcat(testPing -> Collections.nCopies(testPing.getCount(), testPing.getUrl()))
-                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, url -> {
-                    long startTime = System.nanoTime();
-                    return asyncHttpClient
-                            .prepareGet(url)
-                            .execute()
-                            .toCompletableFuture()
-                            .thenApply(response -> System.nanoTime() - startTime);
-                })
-                .toMat(fold, Keep.right());
-
-        return Flow.of(HttpRequest.class)
-                .map(req -> {
-                    Query requestQuery = req.getUri().query();
-                    String url = requestQuery.getOrElse(AkkaStreamsAppConstants.TEST_URL_KEY, "");
-                    Integer count = Integer.parseInt(requestQuery.getOrElse(AkkaStreamsAppConstants.COUNT_KEY, "-1"));
-                    return new TestPing(url, count);
-                })
-                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, testPing ->
-                        Patterns.ask(cacheActor, new CacheActor.GetMessage(testPing.getUrl()), AkkaStreamsAppConstants.TIMEOUT)
-                                .thenCompose(req -> {
-                                    ResultPing res = (ResultPing) req;
-                                    if (res.getPing() != null) {
-                                        return CompletableFuture.completedFuture(res);
-                                    } else {
-                                        return Source.from(Collections.singletonList(testPing))
-                                                .toMat(testSink, Keep.right())
-                                                .run(materializer)
-                                                .thenApply(time -> new ResultPing(testPing.getUrl(), time / testPing.getCount() / AkkaStreamsAppConstants.ONE_SECOND_IN_NANO_SECONDS));
-                                    }
-                        }))
-                .map(res -> {
-                    cacheActor.tell(res, ActorRef.noSender());
-                    return HttpResponse.create()
-                            .withEntity(res.getUrl() + " " + res.getPing());
-                });
     }
 
 }
