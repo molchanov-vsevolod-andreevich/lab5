@@ -32,9 +32,11 @@ public class AkkaStreamsApp {
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
 
+        AsyncHttpClient asyncHttpClient = Dsl.asyncHttpClient();
+
         HttpRouter instance = new HttpRouter(system);
 
-        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRouteFlow(materializer);
+        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRouteFlow(asyncHttpClient, materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
                 ConnectHttp.toHost(AkkaStreamsAppConstants.HOST, AkkaStreamsAppConstants.PORT),

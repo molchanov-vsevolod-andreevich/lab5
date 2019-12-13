@@ -24,9 +24,9 @@ public class HttpRouter {
         cacheActor = system.actorOf(CacheActor.props(), AkkaStreamsAppConstants.CACHE_ACTOR_NAME);
     }
 
-    public Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(ActorMaterializer materializer) {
-        AsyncHttpClient asyncHttpClient = Dsl.asyncHttpClient();
+    public Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(AsyncHttpClient asyncHttpClient, ActorMaterializer materializer) {
         Sink<Long, CompletionStage<Long>> fold = Sink.fold(0L, Long::sum);
+
         Sink<TestPing, CompletionStage<Long>> testSink = Flow.<TestPing>create()
                 .mapConcat(testPing -> Collections.nCopies(testPing.getCount(), testPing.getUrl()))
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, url -> {
