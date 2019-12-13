@@ -3,17 +3,11 @@ import java.time.Duration;
 class AkkaStreamsAppConstants {
     // Actors Constants
     static final String ACTOR_SYSTEM_NAME = "routes";
-    static final String ROUTE_ACTOR_NAME = "routeActor";
     static final String CACHE_ACTOR_NAME = "cacheActor";
 
     // Server Constants
     static final String HOST = "localhost";
     static final int PORT = 8080;
-
-    static final String SERVER_POST_PATH = "test";
-    static final String SERVER_GET_PATH = "result";
-
-    static final String PACKAGE_ID_PARAMETER_NAME = "packageId";
 
     // Messages
     static final String START_MESSAGE = "start!";
