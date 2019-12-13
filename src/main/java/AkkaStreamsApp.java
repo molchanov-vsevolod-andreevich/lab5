@@ -12,7 +12,6 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -20,10 +19,8 @@ import java.util.concurrent.CompletionStage;
 import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
-import javafx.util.Pair;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.Dsl;
-import scala.concurrent.Future;
 
 public class AkkaStreamsApp {
 
@@ -32,7 +29,7 @@ public class AkkaStreamsApp {
         ActorSystem system = ActorSystem.create(AkkaStreamsAppConstants.ACTOR_SYSTEM_NAME);
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
-        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = createRouteFlow(http, system, materializer);
+        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = createRouteFlow(system, materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
                 ConnectHttp.toHost(AkkaStreamsAppConstants.HOST, AkkaStreamsAppConstants.PORT),
@@ -45,7 +42,7 @@ public class AkkaStreamsApp {
                 .thenAccept(unbound -> system.terminate()); // and shutdown when done
     }
 
-    private static Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(Http http, ActorSystem system, ActorMaterializer materializer) {
+    private static Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(ActorSystem system, ActorMaterializer materializer) {
         ActorRef cacheActor = system.actorOf(CacheActor.props(), AkkaStreamsAppConstants.CACHE_ACTOR_NAME);
         AsyncHttpClient asyncHttpClient = Dsl.asyncHttpClient();
         Sink<Long, CompletionStage<Long>> fold = Sink.fold(0L, Long::sum);
@@ -66,14 +63,12 @@ public class AkkaStreamsApp {
                     Query requestQuery = req.getUri().query();
                     String url = requestQuery.getOrElse(AkkaStreamsAppConstants.TEST_URL_KEY, "");
                     Integer count = Integer.parseInt(requestQuery.getOrElse(AkkaStreamsAppConstants.COUNT_KEY, "-1"));
-//                    System.out.println(url + " " + count);
                     return new TestPing(url, count);
                 })
                 .mapAsync(AkkaStreamsAppConstants.PARALLELISM, testPing ->
                         Patterns.ask(cacheActor, new CacheActor.GetMessage(testPing.getUrl()), AkkaStreamsAppConstants.TIMEOUT)
                                 .thenCompose(req -> {
                                     ResultPing res = (ResultPing) req;
-//                                    System.out.println(res.getUrl() + " " + res.getPing());
                                     if (res.getPing() != null) {
                                         return CompletableFuture.completedFuture(res);
                                     } else {
