@@ -11,7 +11,6 @@ import akka.stream.javadsl.Keep;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.asynchttpclient.AsyncHttpClient;
-import org.asynchttpclient.Dsl;
 
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
@@ -25,19 +24,7 @@ public class HttpRouter {
     }
 
     public Flow<HttpRequest, HttpResponse, NotUsed> createRouteFlow(AsyncHttpClient asyncHttpClient, ActorMaterializer materializer) {
-        Sink<Long, CompletionStage<Long>> fold = Sink.fold(0L, Long::sum);
-
-        Sink<TestPing, CompletionStage<Long>> testSink = Flow.<TestPing>create()
-                .mapConcat(testPing -> Collections.nCopies(testPing.getCount(), testPing.getUrl()))
-                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, url -> {
-                    long startTime = System.nanoTime();
-                    return asyncHttpClient
-                            .prepareGet(url)
-                            .execute()
-                            .toCompletableFuture()
-                            .thenApply(response -> System.nanoTime() - startTime);
-                })
-                .toMat(fold, Keep.right());
+        Sink<TestPing, CompletionStage<Long>> testSink = createSink(asyncHttpClient);
 
         return Flow.of(HttpRequest.class)
                 .map(req -> {
@@ -64,5 +51,21 @@ public class HttpRouter {
                     return HttpResponse.create()
                             .withEntity(res.getUrl() + " " + res.getPing());
                 });
+    }
+
+    public Sink<TestPing, CompletionStage<Long>> createSink(AsyncHttpClient asyncHttpClient) {
+        Sink<Long, CompletionStage<Long>> fold = Sink.fold(0L, Long::sum);
+
+        return Flow.<TestPing>create()
+                .mapConcat(testPing -> Collections.nCopies(testPing.getCount(), testPing.getUrl()))
+                .mapAsync(AkkaStreamsAppConstants.PARALLELISM, url -> {
+                    long startTime = System.nanoTime();
+                    return asyncHttpClient
+                            .prepareGet(url)
+                            .execute()
+                            .toCompletableFuture()
+                            .thenApply(response -> System.nanoTime() - startTime);
+                })
+                .toMat(fold, Keep.right());
     }
 }
