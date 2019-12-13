@@ -26,9 +26,14 @@ public class AkkaStreamsApp {
 
     public static void main(String[] args) throws IOException {
         System.out.println(AkkaStreamsAppConstants.START_MESSAGE);
+
         ActorSystem system = ActorSystem.create(AkkaStreamsAppConstants.ACTOR_SYSTEM_NAME);
+
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
+
+        final
+
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = createRouteFlow(system, materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
