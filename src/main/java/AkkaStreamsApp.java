@@ -40,11 +40,11 @@ public class AkkaStreamsApp {
                 .thenCompose(ServerBinding::unbind)
                 .thenAccept(unbound -> {
                     system.terminate();
-                    try {
-                        asyncHttpClient.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        asyncHttpClient.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }); // and shutdown when done
     }
 
