@@ -16,10 +16,10 @@ import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-public class HttpRouter {
+public class TestHttpPing {
     ActorRef cacheActor;
 
-    public HttpRouter( ActorSystem system) {
+    public TestHttpPing(ActorSystem system) {
         cacheActor = system.actorOf(CacheActor.props(), AkkaStreamsAppConstants.CACHE_ACTOR_NAME);
     }
 

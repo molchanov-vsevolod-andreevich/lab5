@@ -26,9 +26,9 @@ public class AkkaStreamsApp {
 
         AsyncHttpClient asyncHttpClient = Dsl.asyncHttpClient();
 
-        HttpRouter instance = new HttpRouter(system);
+        TestHttpPing testHttpPing = new TestHttpPing(system);
 
-        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = instance.createRouteFlow(asyncHttpClient, materializer);
+        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = testHttpPing.createRouteFlow(asyncHttpClient, materializer);
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
                 ConnectHttp.toHost(AkkaStreamsAppConstants.HOST, AkkaStreamsAppConstants.PORT),
